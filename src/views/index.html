@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <title>Metric/Imperial Converter</title>
+</head>
+<body>
+    <header>
+        <h1>Metric/Imperial Converter</h1>
+        <p class="subtitle">Convert between common metric and imperial units with ease!</p>
+    </header>
+
+    <main>
+        <section class="info">
+            <h2>How It Works</h2>
+            <p>This converter allows you to input values in either metric or imperial units, and it will return the converted value along with the correct unit. Simply enter a value and its unit (e.g., 3.1mi or 4gal), and the system will do the rest!</p>
+            <p>Examples of valid input:</p>
+            <ul>
+                <li><a href="/api/convert?input=4gal">[project url]/api/convert?input=4gal</a></li>
+                <li><a href="/api/convert?input=1/2km">[project url]/api/convert?input=1/2km</a></li>
+                <li><a href="/api/convert?input=5.4/3lbs">[project url]/convert?input=5.4/3lbs</a></li>
+                <li><a href="/api/convert?input=kg">[project url]/api/convert?input=kg</a></li>
+            </ul>
+        </section>
+
+        <section class="examples">
+            <h2>Example Output:</h2>
+            <p>Example return for <code>/api/convert?input=3.1mi</code>:</p>
+            <code>{ "initNum": 3.1, "initUnit": "mi", "returnNum": 4.98895, "returnUnit": "km", "string": "3.1 miles converts to 4.98895 kilometers" }</code>
+        </section>
+
+        <section class="convert-form">
+            <h2>Try It Yourself!</h2>
+            <form id="convertForm" class="border">
+                <label for="convertField">Enter a value (e.g., 3.1mi):</label>
+                <input type="text" id="convertField" name="input" placeholder="3.1mi" required>
+                <input id="convert" type="submit" value="Convert!">
+            </form>
+            <p id="result"></p>
+            <code id="jsonResult"></code>
+        </section>
+    </main>
+
+    <footer>
+        <p>This project provides a simple API for Metric/Imperial Converter.</p>
+        <p><strong>Note:</strong> This project is for educational purposes and showcases my projects.</p> 
+    </footer>
+
+    <!-- jQuery for form handling -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('#convertForm').submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '/api/convert',
+                    type: 'get',
+                    data: $('#convertForm').serialize(),
+                    success: function(data) {
+                        $('#result').text(data.string || data);
+                        $('#jsonResult').text(JSON.stringify(data));
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
